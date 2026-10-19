@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches: [main, homolog]
+  pull_request:
+
+jobs:
+  quality:
+    name: Lint, typecheck, testes e build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run format:check
+      - run: npm run typecheck
+      - run: npm test
+      # O build pega erros que o tsc não vê, como prerender quebrado com Cache Components.
+      - run: npm run build
+        env:
+          NEXT_PUBLIC_API_URL: https://alicerce-api-agln.onrender.com
