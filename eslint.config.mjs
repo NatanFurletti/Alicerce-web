@@ -16,6 +16,35 @@ const eslintConfig = defineConfig([
       ],
     },
   },
+  {
+    // Camada de serviço isolada: só `services/` (e a sessão, que registra o
+    // middleware) falam com a API. Componentes e hooks chamam serviços.
+    files: ['src/**/*.{ts,tsx}'],
+    ignores: [
+      'src/features/*/services/**',
+      'src/features/auth/session/**',
+      'src/lib/api/**',
+    ],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          paths: [
+            {
+              name: '@/lib/api/client',
+              message:
+                'Componentes e hooks não chamam a API. Crie ou use uma função em features/<feature>/services.',
+            },
+            {
+              name: 'openapi-fetch',
+              message:
+                'Use o cliente de @/lib/api/client, dentro de uma camada de serviço.',
+            },
+          ],
+        },
+      ],
+    },
+  },
   // Por último: desliga as regras de estilo que brigariam com o Prettier.
   prettier,
   globalIgnores([
