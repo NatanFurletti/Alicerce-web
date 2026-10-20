@@ -31,18 +31,18 @@ type FetchResult =
 /**
  * O tipo de `data` no ramo de sucesso.
  *
- * Inferir direto de `{ data: T }` n„o serve: o ramo de erro declara `data?: never`, e o
+ * Inferir direto de `{ data: T }` n√£o serve: o ramo de erro declara `data?: never`, e o
  * TypeScript juntaria os dois, devolvendo `T | undefined` para toda chamada. O tipo
- * condicional descarta o ramo de erro, porque `data` opcional n„o satisfaz `data`
- * obrigatÛrio.
+ * condicional descarta o ramo de erro, porque `data` opcional n√£o satisfaz `data`
+ * obrigat√≥rio.
  */
 type SuccessData<R> = R extends { data: infer D } ? D : never;
 
 /**
- * Transforma o resultado do `openapi-fetch` em valor ou exceÁ„o.
+ * Transforma o resultado do `openapi-fetch` em valor ou exce√ß√£o.
  *
- * O `openapi-fetch` n„o lanÁa em 4xx/5xx; devolve `{ error }`. O TanStack Query, por
- * outro lado, sÛ entra em estado de erro quando a funÁ„o lanÁa. Este È o ponto de
+ * O `openapi-fetch` n√£o lan√ßa em 4xx/5xx; devolve `{ error }`. O TanStack Query, por
+ * outro lado, s√≥ entra em estado de erro quando a fun√ß√£o lan√ßa. Este √© o ponto de
  * encontro: toda falha vira um `ApiError`, com o `code` da API e o texto para a tela.
  */
 export async function unwrap<R extends FetchResult>(
@@ -52,7 +52,7 @@ export async function unwrap<R extends FetchResult>(
   try {
     result = await request;
   } catch (cause) {
-    // `fetch` sÛ lanÁa quando n„o houve resposta: rede, CORS ou API fora do ar.
+    // `fetch` s√≥ lan√ßa quando n√£o houve resposta: rede, CORS ou API fora do ar.
     throw ApiError.network(cause);
   }
 
@@ -60,6 +60,6 @@ export async function unwrap<R extends FetchResult>(
     throw ApiError.fromResponse(result.response.status, result.error);
   }
 
-  // Aqui `result` È o ramo de sucesso, mas o TypeScript n„o estreita genÈricos.
+  // Aqui `result` √© o ramo de sucesso, mas o TypeScript n√£o estreita gen√©ricos.
   return result.data as SuccessData<R>;
 }
