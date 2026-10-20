@@ -1,9 +1,15 @@
 import { describe, expect, it } from 'vitest';
 
-import { formatCurrency, formatDate, formatPercent, formatTerm } from './format';
+import {
+  formatCompactCurrency,
+  formatCurrency,
+  formatDate,
+  formatPercent,
+  formatTerm,
+} from './format';
 
 // O Intl separa "R$" do valor com espaço não separável (U+00A0), não com espaço comum.
-const NBSP = ' ';
+const NBSP = '\u00a0';
 
 describe('formatCurrency', () => {
   it('formata centavos como reais, com milhar em ponto e decimal em vírgula', () => {
@@ -54,5 +60,13 @@ describe('formatTerm', () => {
   it('prazos curtos ficam só em meses', () => {
     expect(formatTerm(1)).toBe('1 mês');
     expect(formatTerm(11)).toBe('11 meses');
+  });
+});
+
+describe('formatCompactCurrency', () => {
+  it('abrevia valores grandes para eixos de gráfico, recebendo reais', () => {
+    expect(formatCompactCurrency(400_000)).toBe(`R$${NBSP}400${NBSP}mil`);
+    expect(formatCompactCurrency(1_500_000)).toBe(`R$${NBSP}1,5${NBSP}mi`);
+    expect(formatCompactCurrency(0)).toBe(`R$${NBSP}0`);
   });
 });

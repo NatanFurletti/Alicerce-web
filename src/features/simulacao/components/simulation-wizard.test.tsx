@@ -82,7 +82,7 @@ describe('SimulationWizard', () => {
     await user.type(screen.getByLabelText('Valor do imóvel (R$)'), '500000');
 
     expect(screen.getByLabelText('Valor do imóvel (R$)')).toHaveAccessibleDescription(
-      'Entendido como R$ 500.000,00.',
+      'Entendido como R$\u00a0500.000,00.',
     );
     expect(
       screen.getByRole('complementary', { name: 'Resumo do financiamento' }),

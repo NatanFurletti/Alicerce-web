@@ -64,3 +64,22 @@ export function formatTerm(months: number): string {
 
   return `${base} (${inYears})`;
 }
+
+const compactCurrency = new Intl.NumberFormat('pt-BR', {
+  style: 'currency',
+  currency: 'BRL',
+  notation: 'compact',
+  // A moeda impõe 2 casas mínimas; sem zerar, o eixo mostraria "R$ 400,0 mil".
+  minimumFractionDigits: 0,
+  maximumFractionDigits: 1,
+});
+
+/**
+ * Moeda abreviada para eixos de gráfico: 400000 → "R$ 400 mil".
+ *
+ * Recebe **reais**, e não centavos, porque é usada sobre os dados já convertidos dos
+ * gráficos (`chart-data.ts`).
+ */
+export function formatCompactCurrency(reais: number): string {
+  return compactCurrency.format(reais);
+}
