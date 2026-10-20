@@ -1,0 +1,6 @@
+.next
+node_modules
+package-lock.json
+next-env.d.ts
+# Gerado por `npm run generate:api`: sobrescrito a cada geração.
+src/lib/api/schema.d.ts

@@ -1,0 +1,9 @@
+# Normaliza para LF no repositório, independente do SO de quem clona.
+# O projeto é desenvolvido no Windows, mas o Prettier usa endOfLine: lf;
+# sem isto o diff fica poluído e o Prettier briga com o checkout.
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.gif binary
+*.ico binary
